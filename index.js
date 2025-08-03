@@ -17,7 +17,7 @@ app.use(urlencoded({ extended: false }));
 
 // CORS settings
 app.use(cors({
-  origin: ["http://localhost:5173", "https://my-product.vercel.app"],
+  origin: ["http://localhost:5173", "https://gfg-inventory-task-frontend.vercel.app"],
   credentials: true,
 }));
 
