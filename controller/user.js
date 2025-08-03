@@ -10,10 +10,14 @@ export const handleUserSignup = async (req, res) => {
 
   try {
     await USER.create({ name, email, password, role });
-    return res.status(201).json({ success: true, message: "User created successfully" });
+    return res
+      .status(201)
+      .json({ success: true, message: "User created successfully" });
   } catch (error) {
     console.error("Error creating user:", error);
-    return res.status(500).json({ success: false, error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal server error" });
   }
 };
 
@@ -23,32 +27,35 @@ export const handleUserLogin = async (req, res) => {
   try {
     const user = await USER.findOne({ email, password });
     if (!user) {
-      return res.status(401).json({ success: false, error: "Invalid email or password" });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid email or password" });
     }
 
     const token = createToken(user);
-res.cookie("gfgauthToken2", token, {
-      httpOnly: true,      
-      sameSite: "None",    
-      secure: true,       
+    res.cookie("gfgauthToken2", token, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
     });
 
     return res.status(200).json({ success: true, message: "Login successful" });
   } catch (error) {
     console.error("Error during user login:", error);
-    return res.status(500).json({ success: false, error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal server error" });
   }
 };
 
 export const handleUserLogout = (req, res) => {
-  
   res.clearCookie("gfgauthToken2", {
+    path: "/",
     httpOnly: true,
     sameSite: "None",
     secure: true,
   });
+
   return res.status(200).json({ success: true, message: "Logout successful" });
-
-  
-
 };
